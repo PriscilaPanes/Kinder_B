@@ -1,0 +1,1129 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Rendición de Cuentas y Balance del Curso</title>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Chart.js para gráficos interactivos con tooltips -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <!-- Google Fonts: Plus Jakarta Sans e Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet" />
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            display: ['Plus Jakarta Sans', 'sans-serif'],
+          },
+          colors: {
+            navy: {
+              800: '#1e293b',
+              900: '#0f172a',
+              950: '#090d16',
+            }
+          }
+        }
+      }
+    };
+  </script>
+
+  <style>
+    body {
+      background-color: #f4f7fa;
+      color: #1e293b;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Estilos optimizados para impresión / Guardar como PDF */
+    @media print {
+      body {
+        background-color: #ffffff !important;
+        color: #0f172a !important;
+        font-size: 11pt;
+      }
+      .no-print {
+        display: none !important;
+      }
+      .print-show-all {
+        display: block !important;
+      }
+      .card-shadow {
+        box-shadow: none !important;
+        border: 1px solid #cbd5e1 !important;
+        break-inside: avoid;
+        page-break-inside: avoid;
+      }
+      header {
+        background: #0f172a !important;
+        color: #ffffff !important;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+      * {
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+      }
+    }
+
+    /* Transiciones suaves para pestañas */
+    .tab-panel {
+      animation: fadeIn 0.25s ease-out;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(4px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Personalización de rango en simulador */
+    input[type="range"] {
+      accent-color: #059669;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col">
+
+  <!-- Barra superior / Encabezado Institucional -->
+  <header class="bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 text-white shadow-md">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
+      <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+        <div>
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/15 border border-emerald-400/30 text-emerald-300 text-xs font-semibold uppercase tracking-wider mb-2">
+            <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+            Portal de Transparencia Escolar
+          </div>
+          <h1 class="font-display text-2xl sm:text-3xl font-extrabold tracking-tight text-white">
+            Rendición de Cuentas y Balance del Curso
+          </h1>
+          <p class="mt-1.5 text-sm sm:text-base text-slate-300 max-w-2xl">
+            Estado financiero actualizado: detalle claro de ingresos recaudados, gastos ejecutados, compromisos pendientes y proyección final disponible.
+          </p>
+        </div>
+
+        <!-- Botones de acción (Imprimir / Copiar Resumen) -->
+        <div class="flex flex-wrap items-center gap-2.5 no-print shrink-0">
+          <button
+            onclick="copiarResumenTexto()"
+            class="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-slate-700/80 hover:bg-slate-700 text-slate-100 text-sm font-medium border border-slate-600 transition cursor-pointer"
+            title="Copiar resumen para enviar por WhatsApp"
+          >
+            <svg class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+            </svg>
+            <span>Copiar Resumen</span>
+          </button>
+           <button
+            onclick="window.print()"
+            class="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-sm font-semibold shadow-sm transition cursor-pointer"
+          >
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
+            </svg>
+            <span>Imprimir / Guardar PDF</span>
+          </button>
+        
+        </div>
+      </div>
+
+      <!-- Notificación flotante al copiar -->
+      <div id="toast-copiado" class="hidden mt-4 p-3 rounded-xl bg-emerald-900/90 border border-emerald-500/40 text-emerald-100 text-sm flex items-center gap-2">
+        <svg class="w-5 h-5 text-emerald-400 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+        </svg>
+        <span>Resumen financiero copiado al portapapeles. Ya puedes pegarlo en el grupo de WhatsApp del curso.</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- Contenido Principal -->
+  <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 space-y-6">
+
+    <!-- SECCIÓN 1: TARJETAS KPI PRINCIPALES -->
+    <section aria-label="Indicadores Clave">
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        
+        <!-- KPI 1: Total Ingresos -->
+        <div class="bg-white rounded-2xl p-5 shadow-sm border border-slate-200/80 card-shadow flex flex-col justify-between">
+          <div class="flex items-start justify-between gap-2">
+            <div>
+              <p class="text-xs font-semibold uppercase tracking-wider text-slate-500">Total Ingresos Recaudados</p>
+              <p class="font-display text-2xl sm:text-3xl font-extrabold text-slate-900 mt-1 tabular-nums">$ 1.219.700</p>
+            </div>
+            <div class="p-2.5 rounded-xl bg-emerald-50 text-emerald-600 shrink-0">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+            </div>
+          </div>
+          <p class="mt-3 text-xs text-slate-500">Suma de cuotas, cuadros y actividades extras.</p>
+        </div>
+
+        <!-- KPI 2: Gastos Ejecutados -->
+        <div class="bg-white rounded-2xl p-5 shadow-sm border border-slate-200/80 card-shadow flex flex-col justify-between">
+          <div class="flex items-start justify-between gap-2">
+            <div>
+              <p class="text-xs font-semibold uppercase tracking-wider text-slate-500">Total Gastos Ejecutados</p>
+              <p class="font-display text-2xl sm:text-3xl font-extrabold text-rose-600 mt-1 tabular-nums">$ 241.790</p>
+            </div>
+            <div class="p-2.5 rounded-xl bg-rose-50 text-rose-600 shrink-0">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15 12H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+            </div>
+          </div>
+          <p class="mt-3 text-xs text-slate-500">Abonos y compras ya pagadas a la fecha.</p>
+        </div>
+
+        <!-- KPI 3: Saldo Actual en Caja -->
+        <div class="bg-white rounded-2xl p-5 shadow-sm border border-slate-200/80 card-shadow flex flex-col justify-between">
+          <div class="flex items-start justify-between gap-2">
+            <div>
+              <p class="text-xs font-semibold uppercase tracking-wider text-slate-500">Saldo Actual en Caja</p>
+              <p class="font-display text-2xl sm:text-3xl font-extrabold text-sky-700 mt-1 tabular-nums">$ 977.910</p>
+            </div>
+            <div class="p-2.5 rounded-xl bg-sky-50 text-sky-600 shrink-0">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
+              </svg>
+            </div>
+          </div>
+          <p class="mt-3 text-xs text-slate-500">Dinero físico/en cuenta hoy (Ingresos − Gastos).</p>
+        </div>
+
+        <!-- KPI 4: Compromisos por Pagar -->
+        <div class="bg-white rounded-2xl p-5 shadow-sm border border-slate-200/80 card-shadow flex flex-col justify-between">
+          <div class="flex items-start justify-between gap-2">
+            <div>
+              <p class="text-xs font-semibold uppercase tracking-wider text-slate-500">Compromisos por Pagar</p>
+              <p class="font-display text-2xl sm:text-3xl font-extrabold text-amber-600 mt-1 tabular-nums">$ 619.500</p>
+            </div>
+            <div class="p-2.5 rounded-xl bg-amber-50 text-amber-600 shrink-0">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+            </div>
+          </div>
+          <p class="mt-3 text-xs text-slate-500">Saldos comprometidos (cuadros, casa y birretes).</p>
+        </div>
+
+        <!-- KPI 5: Saldo Libre Actual -->
+        <div class="bg-emerald-900 text-white rounded-2xl p-5 shadow-sm border border-emerald-800 card-shadow flex flex-col justify-between">
+          <div class="flex items-start justify-between gap-2">
+            <div>
+              <p class="text-xs font-semibold uppercase tracking-wider text-emerald-300">Saldo Libre Actual</p>
+              <p class="font-display text-2xl sm:text-3xl font-extrabold text-white mt-1 tabular-nums">$ 358.410</p>
+            </div>
+            <div class="p-2.5 rounded-xl bg-emerald-800 text-emerald-300 shrink-0">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+            </div>
+          </div>
+          <p class="mt-3 text-xs text-emerald-200">Dinero realmente libre tras cubrir todos los pagos pendientes.</p>
+        </div>
+
+        <!-- KPI 6: Proyección Final para Regalos -->
+        <div class="bg-gradient-to-br from-amber-50 to-orange-50 rounded-2xl p-5 shadow-sm border border-amber-200/90 card-shadow flex flex-col justify-between">
+          <div class="flex items-start justify-between gap-2">
+            <div>
+              <p class="text-xs font-semibold uppercase tracking-wider text-amber-800">Proyección Final Regalos</p>
+              <p class="font-display text-2xl sm:text-3xl font-extrabold text-amber-900 mt-1 tabular-nums">$ 438.410</p>
+            </div>
+            <div class="p-2.5 rounded-xl bg-amber-200/60 text-amber-800 shrink-0">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 110-4h14a2 2 0 110 4M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7" />
+              </svg>
+            </div>
+          </div>
+          <p class="mt-3 text-xs text-amber-900/80">Si se recaudan los <strong>$ 80.000</strong> pendientes por cobrar.</p>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- NOTA ACLARATORIA EN LENGUAJE SENCILLO PARA APODERADOS -->
+    <section class="bg-sky-50/90 border border-sky-200 rounded-2xl p-4 sm:p-5 card-shadow">
+      <div class="flex items-start gap-3.5">
+        <div class="p-2 rounded-xl bg-sky-100 text-sky-700 shrink-0 mt-0.5">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+        </div>
+        <div class="space-y-1.5 text-sm text-slate-700">
+          <h2 class="font-display font-bold text-slate-900 text-base">¿Cómo leer este balance? (Nota aclaratoria para apoderados)</h2>
+          <p>
+            Para evitar confusiones, es importante distinguir entre el <strong>dinero que hay hoy en caja ($ 977.910)</strong> y el <strong>saldo libre real ($ 358.410)</strong>:
+          </p>
+          <ul class="list-disc pl-5 space-y-1 text-slate-600">
+            <li>Aunque hoy tenemos <strong>$ 977.910</strong> guardados, ya existen compromisos asumidos por <strong>$ 619.500</strong> (el saldo restante de la casa de cumpleaños, los cuadros y la segunda cuota de los birretes).</li>
+            <li>Al descontar esos compromisos ya reservados, nos quedan <strong>$ 358.410</strong> completamente libres.</li>
+            <li>Además, hay <strong>$ 80.000</strong> pendientes por cobrar a apoderados ($ 70.000 en cuotas y $ 10.000 en cuadros). Cuando todos se pongan al día, el fondo disponible para regalos subirá a <strong>$ 438.410</strong>.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- NAVEGACIÓN POR PESTAÑAS INTERACTIVAS -->
+    <nav class="no-print bg-white p-1.5 rounded-2xl shadow-sm border border-slate-200/80 flex flex-wrap sm:inline-flex gap-1.5" aria-label="Secciones del informe">
+      <button
+        id="tab-btn-visual"
+        onclick="cambiarTab('visual')"
+        class="flex-1 sm:flex-none px-4 py-2.5 rounded-xl text-sm font-semibold transition cursor-pointer bg-slate-900 text-white shadow-sm"
+      >
+        📊 Resumen Visual y Gráficos
+      </button>
+      <button
+        id="tab-btn-detalle"
+        onclick="cambiarTab('detalle')"
+        class="flex-1 sm:flex-none px-4 py-2.5 rounded-xl text-sm font-semibold transition cursor-pointer text-slate-600 hover:text-slate-900 hover:bg-slate-100"
+      >
+        📋 Detalle de Movimientos
+      </button>
+      <button
+        id="tab-btn-simulador"
+        onclick="cambiarTab('simulador')"
+        class="flex-1 sm:flex-none px-4 py-2.5 rounded-xl text-sm font-semibold transition cursor-pointer text-slate-600 hover:text-slate-900 hover:bg-slate-100"
+      >
+        🧮 Simulador de Proyección
+      </button>
+    </nav>
+
+    <!-- ===================================================================== -->
+    <!-- PESTAÑA 1: RESUMEN VISUAL Y GRÁFICOS INTERACTIVOS                      -->
+    <!-- ===================================================================== -->
+    <div id="panel-visual" class="tab-panel print-show-all space-y-6">
+      
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        
+        <!-- Gráfico 1: Flujo Financiero General (7 columnas en desktop) -->
+        <div class="lg:col-span-7 bg-white rounded-2xl p-5 sm:p-6 shadow-sm border border-slate-200/80 card-shadow flex flex-col justify-between">
+          <div>
+            <h3 class="font-display text-lg font-bold text-slate-900">Flujo Financiero General</h3>
+            <p class="text-xs sm:text-sm text-slate-500 mt-0.5">Comparación desde la recaudación total hasta el saldo proyectado final. Pasa el cursor o toca cada barra para ver el monto.</p>
+          </div>
+          <div class="relative w-full h-72 sm:h-80 mt-4">
+            <canvas id="chartFlujo"></canvas>
+          </div>
+        </div>
+
+        <!-- Gráfico 2: Composición de Ingresos (5 columnas en desktop) -->
+        <div class="lg:col-span-5 bg-white rounded-2xl p-5 sm:p-6 shadow-sm border border-slate-200/80 card-shadow flex flex-col justify-between">
+          <div>
+            <h3 class="font-display text-lg font-bold text-slate-900">Composición de los Ingresos</h3>
+            <p class="text-xs sm:text-sm text-slate-500 mt-0.5">Distribución de los <strong>$ 1.219.700</strong> recaudados según su origen.</p>
+          </div>
+          <div class="relative w-full h-60 sm:h-64 mt-3 flex items-center justify-center">
+            <canvas id="chartIngresos"></canvas>
+          </div>
+          <div class="mt-4 pt-3 border-t border-slate-100 grid grid-cols-3 gap-2 text-center text-xs">
+            <div class="p-2 rounded-lg bg-slate-50">
+              <span class="inline-block w-2.5 h-2.5 rounded-full bg-emerald-600 mr-1"></span>
+              <span class="font-semibold text-slate-700">Cuotas</span>
+              <p class="font-bold text-slate-900 mt-0.5">$ 620.000</p>
+              <p class="text-slate-500">50,8%</p>
+            </div>
+            <div class="p-2 rounded-lg bg-slate-50">
+              <span class="inline-block w-2.5 h-2.5 rounded-full bg-sky-600 mr-1"></span>
+              <span class="font-semibold text-slate-700">Otros Ing.</span>
+              <p class="font-bold text-slate-900 mt-0.5">$ 379.700</p>
+              <p class="text-slate-500">31,1%</p>
+            </div>
+            <div class="p-2 rounded-lg bg-slate-50">
+              <span class="inline-block w-2.5 h-2.5 rounded-full bg-amber-500 mr-1"></span>
+              <span class="font-semibold text-slate-700">Cuadros</span>
+              <p class="font-bold text-slate-900 mt-0.5">$ 220.000</p>
+              <p class="text-slate-500">18,0%</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Gráfico 3: Estado de Avance de Compromisos Principales -->
+      <div class="bg-white rounded-2xl p-5 sm:p-6 shadow-sm border border-slate-200/80 card-shadow">
+        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mb-4">
+          <div>
+            <h3 class="font-display text-lg font-bold text-slate-900">Estado de Avance de Compromisos Principales</h3>
+            <p class="text-xs sm:text-sm text-slate-500 mt-0.5">Comparación entre lo que ya se abonó y el saldo que falta por pagar en los tres ítems mayores.</p>
+          </div>
+          <div class="flex items-center gap-4 text-xs font-medium">
+            <span class="inline-flex items-center gap-1.5 text-slate-700">
+              <span class="w-3 h-3 rounded-sm bg-emerald-600"></span> Abonado
+            </span>
+            <span class="inline-flex items-center gap-1.5 text-slate-700">
+              <span class="w-3 h-3 rounded-sm bg-amber-500"></span> Pendiente por Pagar
+            </span>
+          </div>
+        </div>
+
+        <div class="relative w-full h-56 sm:h-60">
+          <canvas id="chartCompromisos"></canvas>
+        </div>
+
+        <!-- Tarjetas resumen rápidas bajo el gráfico -->
+        <div class="mt-4 pt-4 border-t border-slate-100 grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
+          <div class="p-3 rounded-xl bg-slate-50 border border-slate-200/60">
+            <div class="flex justify-between font-bold text-slate-900">
+              <span>Casa de Cumpleaños</span>
+              <span>Total: $ 350.000</span>
+            </div>
+            <div class="mt-1.5 flex justify-between text-slate-600">
+              <span class="text-emerald-700 font-medium">Abonado: $ 100.000 (28,6%)</span>
+              <span class="text-amber-700 font-medium">Falta: $ 250.000</span>
+            </div>
+          </div>
+          <div class="p-3 rounded-xl bg-slate-50 border border-slate-200/60">
+            <div class="flex justify-between font-bold text-slate-900">
+              <span>Cuadros</span>
+              <span>Total: $ 312.000</span>
+            </div>
+            <div class="mt-1.5 flex justify-between text-slate-600">
+              <span class="text-slate-500 font-medium">Abonado: $ 0 (0%)</span>
+              <span class="text-amber-700 font-medium">Falta: $ 312.000</span>
+            </div>
+          </div>
+          <div class="p-3 rounded-xl bg-slate-50 border border-slate-200/60">
+            <div class="flex justify-between font-bold text-slate-900">
+              <span>Birretes</span>
+              <span>Total: $ 115.000</span>
+            </div>
+            <div class="mt-1.5 flex justify-between text-slate-600">
+              <span class="text-emerald-700 font-medium">Abonado: $ 57.500 (50%)</span>
+              <span class="text-amber-700 font-medium">Falta: $ 57.500</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ===================================================================== -->
+    <!-- PESTAÑA 2: DETALLE DE MOVIMIENTOS Y TABLAS COMPLETAS                  -->
+    <!-- ===================================================================== -->
+    <div id="panel-detalle" class="tab-panel hidden print-show-all space-y-6">
+      
+      <!-- Buscador rápido en movimientos -->
+      <div class="no-print bg-white rounded-2xl p-4 shadow-sm border border-slate-200/80 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+        <div class="relative flex-1 max-w-md">
+          <svg class="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+          </svg>
+          <input
+            type="text"
+            id="buscador-movimientos"
+            oninput="filtrarTablas(this.value)"
+            placeholder="Buscar ítem (ej. bingo, birretes, sopaipillas, cuotas...)"
+            class="w-full pl-10 pr-4 py-2 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
+          />
+        </div>
+        <span class="text-xs text-slate-500">Todos los montos están expresados en pesos chilenos (CLP).</span>
+      </div>
+
+      <!-- Tabla Principal: Balance Parcial Paso a Paso -->
+      <div class="bg-white rounded-2xl shadow-sm border border-slate-200/80 overflow-hidden card-shadow">
+        <div class="px-5 py-4 bg-slate-900 text-white flex items-center justify-between">
+          <div>
+            <h3 class="font-display font-bold text-base sm:text-lg">Balance Parcial Paso a Paso</h3>
+            <p class="text-xs text-slate-300">Cálculo consolidado de ingresos, gastos, obligaciones pendientes y proyección.</p>
+          </div>
+          <span class="text-xs font-semibold px-2.5 py-1 rounded-lg bg-slate-800 text-emerald-400 border border-slate-700">Resumen Oficial</span>
+        </div>
+        <div class="overflow-x-auto">
+          <table class="w-full text-left border-collapse text-sm">
+            <thead>
+              <tr class="bg-slate-50 border-b border-slate-200 text-slate-600 text-xs uppercase tracking-wider">
+                <th class="py-3 px-5 font-semibold">Operación / Concepto</th>
+                <th class="py-3 px-5 font-semibold hidden sm:table-cell">Descripción</th>
+                <th class="py-3 px-5 font-semibold text-right">Monto</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-100">
+              <tr class="fila-buscable hover:bg-slate-50/80">
+                <td class="py-3 px-5 font-medium text-slate-800">Ingresos Cuotas</td>
+                <td class="py-3 px-5 text-slate-500 hidden sm:table-cell">Recaudación regular de cuotas del curso</td>
+                <td class="py-3 px-5 text-right font-semibold text-slate-900 tabular-nums">$ 620.000</td>
+              </tr>
+              <tr class="fila-buscable hover:bg-slate-50/80">
+                <td class="py-3 px-5 font-medium text-slate-800">Ingresos Cuadros</td>
+                <td class="py-3 px-5 text-slate-500 hidden sm:table-cell">Pagos recibidos por concepto de cuadros</td>
+                <td class="py-3 px-5 text-right font-semibold text-slate-900 tabular-nums">$ 220.000</td>
+              </tr>
+              <tr class="fila-buscable hover:bg-slate-50/80">
+                <td class="py-3 px-5 font-medium text-slate-800">Otros Ingresos</td>
+                <td class="py-3 px-5 text-slate-500 hidden sm:table-cell">Actividades extras (sopaipillas, rifas, bingo, cuadro extra)</td>
+                <td class="py-3 px-5 text-right font-semibold text-slate-900 tabular-nums">$ 379.700</td>
+              </tr>
+              <tr class="fila-buscable bg-emerald-50/70 font-bold text-emerald-950 border-t-2 border-emerald-200">
+                <td class="py-3.5 px-5">(=) Total Ingresos</td>
+                <td class="py-3.5 px-5 text-emerald-800 font-normal hidden sm:table-cell">Suma total de dinero recaudado a la fecha</td>
+                <td class="py-3.5 px-5 text-right text-emerald-700 text-base tabular-nums">$ 1.219.700</td>
+              </tr>
+              <tr class="fila-buscable hover:bg-slate-50/80">
+                <td class="py-3 px-5 font-medium text-rose-700">(−) Gastos Ejecutados</td>
+                <td class="py-3 px-5 text-slate-500 hidden sm:table-cell">Desembolsos y abonos ya realizados</td>
+                <td class="py-3 px-5 text-right font-semibold text-rose-600 tabular-nums">− $ 241.790</td>
+              </tr>
+              <tr class="fila-buscable bg-sky-50/80 font-bold text-sky-950 border-t border-sky-200">
+                <td class="py-3.5 px-5">(=) Total en Caja</td>
+                <td class="py-3.5 px-5 text-sky-800 font-normal hidden sm:table-cell">Saldo efectivo disponible hoy antes de compromisos</td>
+                <td class="py-3.5 px-5 text-right text-sky-800 text-base tabular-nums">$ 977.910</td>
+              </tr>
+              <tr class="fila-buscable hover:bg-slate-50/80">
+                <td class="py-3 px-5 font-medium text-amber-800">(−) Gastos Pendientes</td>
+                <td class="py-3 px-5 text-slate-500 hidden sm:table-cell">Compromisos por pagar (cuadros, casa cumpleaños, birretes)</td>
+                <td class="py-3 px-5 text-right font-semibold text-amber-700 tabular-nums">− $ 619.500</td>
+              </tr>
+              <tr class="fila-buscable bg-emerald-900 text-white font-bold">
+                <td class="py-3.5 px-5">(=) Total Final Libre</td>
+                <td class="py-3.5 px-5 text-emerald-200 font-normal hidden sm:table-cell">Saldo real disponible tras pagar todos los compromisos</td>
+                <td class="py-3.5 px-5 text-right text-white text-base tabular-nums">$ 358.410</td>
+              </tr>
+              <tr class="fila-buscable hover:bg-slate-50/80">
+                <td class="py-3 px-5 font-medium text-slate-800">(+) Cobros Pendientes (Cuotas y Cuadros)</td>
+                <td class="py-3 px-5 text-slate-500 hidden sm:table-cell">Pendiente en cuotas ($ 70.000) + pendiente en cuadros ($ 10.000)</td>
+                <td class="py-3 px-5 text-right font-semibold text-emerald-700 tabular-nums">+ $ 80.000</td>
+              </tr>
+              <tr class="fila-buscable bg-amber-100/80 font-bold text-amber-950 border-t-2 border-amber-300">
+                <td class="py-3.5 px-5">(=) Saldo Estimado para Regalos (si pagan todos)</td>
+                <td class="py-3.5 px-5 text-amber-900 font-normal hidden sm:table-cell">Monto proyectado al recaudar el 100% de lo pendiente</td>
+                <td class="py-3.5 px-5 text-right text-amber-900 text-base tabular-nums">$ 438.410</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Grid de 2 columnas para Otros Ingresos y Gastos Ejecutados -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        
+        <!-- Tabla: Detalle de Otros Ingresos -->
+        <div class="bg-white rounded-2xl shadow-sm border border-slate-200/80 overflow-hidden card-shadow flex flex-col justify-between">
+          <div>
+            <div class="px-5 py-4 border-b border-slate-100 flex items-center justify-between bg-emerald-50/40">
+              <div>
+                <h3 class="font-display font-bold text-slate-900">Detalle de Otros Ingresos</h3>
+                <p class="text-xs text-slate-500">Actividades extraordinarias y recaudaciones adicionales</p>
+              </div>
+              <span class="px-2.5 py-1 rounded-lg bg-emerald-100 text-emerald-800 text-xs font-bold tabular-nums">$ 379.700</span>
+            </div>
+            <table class="w-full text-left border-collapse text-sm">
+              <thead>
+                <tr class="bg-slate-50/80 border-b border-slate-200 text-slate-500 text-xs uppercase">
+                  <th class="py-2.5 px-5 font-semibold">Concepto</th>
+                  <th class="py-2.5 px-5 font-semibold text-right">Monto</th>
+                  <th class="py-2.5 px-5 font-semibold text-right">%</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-slate-100">
+                <tr class="fila-buscable hover:bg-slate-50">
+                  <td class="py-2.5 px-5 text-slate-800">Venta sopaipillas</td>
+                  <td class="py-2.5 px-5 text-right font-semibold text-slate-900 tabular-nums">$ 117.700</td>
+                  <td class="py-2.5 px-5 text-right text-slate-500 tabular-nums">31,0%</td>
+                </tr>
+                <tr class="fila-buscable hover:bg-slate-50">
+                  <td class="py-2.5 px-5 text-slate-800">Devolución rifas</td>
+                  <td class="py-2.5 px-5 text-right font-semibold text-slate-900 tabular-nums">$ 110.000</td>
+                  <td class="py-2.5 px-5 text-right text-slate-500 tabular-nums">29,0%</td>
+                </tr>
+                <tr class="fila-buscable hover:bg-slate-50">
+                  <td class="py-2.5 px-5 text-slate-800">Comisión ventas en el bingo</td>
+                  <td class="py-2.5 px-5 text-right font-semibold text-slate-900 tabular-nums">$ 70.000</td>
+                  <td class="py-2.5 px-5 text-right text-slate-500 tabular-nums">18,4%</td>
+                </tr>
+                <tr class="fila-buscable hover:bg-slate-50">
+                  <td class="py-2.5 px-5 text-slate-800">Devolución bingo</td>
+                  <td class="py-2.5 px-5 text-right font-semibold text-slate-900 tabular-nums">$ 69.000</td>
+                  <td class="py-2.5 px-5 text-right text-slate-500 tabular-nums">18,2%</td>
+                </tr>
+                <tr class="fila-buscable hover:bg-slate-50">
+                  <td class="py-2.5 px-5 text-slate-800">Cuadro extra María José</td>
+                  <td class="py-2.5 px-5 text-right font-semibold text-slate-900 tabular-nums">$ 13.000</td>
+                  <td class="py-2.5 px-5 text-right text-slate-500 tabular-nums">3,4%</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="px-5 py-3 bg-slate-50 border-t border-slate-200 flex justify-between items-center font-bold text-sm text-slate-900">
+            <span>Total Otros Ingresos</span>
+            <span class="text-emerald-700 tabular-nums">$ 379.700</span>
+          </div>
+        </div>
+
+        <!-- Tabla: Detalle de Gastos Ejecutados -->
+        <div class="bg-white rounded-2xl shadow-sm border border-slate-200/80 overflow-hidden card-shadow flex flex-col justify-between">
+          <div>
+            <div class="px-5 py-4 border-b border-slate-100 flex items-center justify-between bg-rose-50/40">
+              <div>
+                <h3 class="font-display font-bold text-slate-900">Detalle de Gastos Ejecutados</h3>
+                <p class="text-xs text-slate-500">Pagos y abonos ya desembolsados a la fecha</p>
+              </div>
+              <span class="px-2.5 py-1 rounded-lg bg-rose-100 text-rose-800 text-xs font-bold tabular-nums">$ 241.790</span>
+            </div>
+            <table class="w-full text-left border-collapse text-sm">
+              <thead>
+                <tr class="bg-slate-50/80 border-b border-slate-200 text-slate-500 text-xs uppercase">
+                  <th class="py-2.5 px-5 font-semibold">Concepto</th>
+                  <th class="py-2.5 px-5 font-semibold text-right">Monto</th>
+                  <th class="py-2.5 px-5 font-semibold text-right">%</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-slate-100">
+                <tr class="fila-buscable hover:bg-slate-50">
+                  <td class="py-2.5 px-5 text-slate-800">Abono casa cumpleaños</td>
+                  <td class="py-2.5 px-5 text-right font-semibold text-slate-900 tabular-nums">$ 100.000</td>
+                  <td class="py-2.5 px-5 text-right text-slate-500 tabular-nums">41,4%</td>
+                </tr>
+                <tr class="fila-buscable hover:bg-slate-50">
+                  <td class="py-2.5 px-5 text-slate-800">Abono birretes</td>
+                  <td class="py-2.5 px-5 text-right font-semibold text-slate-900 tabular-nums">$ 57.500</td>
+                  <td class="py-2.5 px-5 text-right text-slate-500 tabular-nums">23,8%</td>
+                </tr>
+                <tr class="fila-buscable hover:bg-slate-50">
+                  <td class="py-2.5 px-5 text-slate-800">Abono bingo</td>
+                  <td class="py-2.5 px-5 text-right font-semibold text-slate-900 tabular-nums">$ 30.000</td>
+                  <td class="py-2.5 px-5 text-right text-slate-500 tabular-nums">12,4%</td>
+                </tr>
+                <tr class="fila-buscable hover:bg-slate-50">
+                  <td class="py-2.5 px-5 text-slate-800">Regalo asistente</td>
+                  <td class="py-2.5 px-5 text-right font-semibold text-slate-900 tabular-nums">$ 26.500</td>
+                  <td class="py-2.5 px-5 text-right text-slate-500 tabular-nums">11,0%</td>
+                </tr>
+                <tr class="fila-buscable hover:bg-slate-50">
+                  <td class="py-2.5 px-5 text-slate-800">Donación selladitos</td>
+                  <td class="py-2.5 px-5 text-right font-semibold text-slate-900 tabular-nums">$ 14.240</td>
+                  <td class="py-2.5 px-5 text-right text-slate-500 tabular-nums">5,9%</td>
+                </tr>
+                <tr class="fila-buscable hover:bg-slate-50">
+                  <td class="py-2.5 px-5 text-slate-800">Stand Fiestas Patrias</td>
+                  <td class="py-2.5 px-5 text-right font-semibold text-slate-900 tabular-nums">$ 13.550</td>
+                  <td class="py-2.5 px-5 text-right text-slate-500 tabular-nums">5,6%</td>
+                </tr>
+                <tr class="fila-buscable hover:bg-slate-50 bg-slate-50/50">
+                  <td class="py-2.5 px-5 text-slate-600">
+                    Regalo Profesora
+                    <span class="block text-xs text-amber-700 font-medium">Pendiente / Sin monto asignado aún</span>
+                  </td>
+                  <td class="py-2.5 px-5 text-right font-semibold text-slate-400 tabular-nums">$ 0</td>
+                  <td class="py-2.5 px-5 text-right text-slate-400 tabular-nums">0,0%</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="px-5 py-3 bg-slate-50 border-t border-slate-200 flex justify-between items-center font-bold text-sm text-slate-900">
+            <span>Total Gastos Ejecutados</span>
+            <span class="text-rose-600 tabular-nums">$ 241.790</span>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Grid de 2 columnas para Pagos Pendientes y Cuentas por Cobrar -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        
+        <!-- Tabla: Pagos Pendientes por Realizar -->
+        <div class="bg-white rounded-2xl shadow-sm border border-slate-200/80 overflow-hidden card-shadow flex flex-col justify-between">
+          <div>
+            <div class="px-5 py-4 border-b border-slate-100 flex items-center justify-between bg-amber-50/50">
+              <div>
+                <h3 class="font-display font-bold text-slate-900">Pagos Pendientes por Realizar</h3>
+                <p class="text-xs text-slate-500">Obligaciones ya comprometidas que deben cubrirse con la caja</p>
+              </div>
+              <span class="px-2.5 py-1 rounded-lg bg-amber-100 text-amber-800 text-xs font-bold tabular-nums">$ 619.500</span>
+            </div>
+            <table class="w-full text-left border-collapse text-sm">
+              <thead>
+                <tr class="bg-slate-50/80 border-b border-slate-200 text-slate-500 text-xs uppercase">
+                  <th class="py-2.5 px-5 font-semibold">Concepto</th>
+                  <th class="py-2.5 px-5 font-semibold text-right">Saldo por Pagar</th>
+                  <th class="py-2.5 px-5 font-semibold text-right">%</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-slate-100">
+                <tr class="fila-buscable hover:bg-slate-50">
+                  <td class="py-2.5 px-5 text-slate-800">Cuadros</td>
+                  <td class="py-2.5 px-5 text-right font-semibold text-slate-900 tabular-nums">$ 312.000</td>
+                  <td class="py-2.5 px-5 text-right text-slate-500 tabular-nums">50,4%</td>
+                </tr>
+                <tr class="fila-buscable hover:bg-slate-50">
+                  <td class="py-2.5 px-5 text-slate-800">Casa de cumpleaños</td>
+                  <td class="py-2.5 px-5 text-right font-semibold text-slate-900 tabular-nums">$ 250.000</td>
+                  <td class="py-2.5 px-5 text-right text-slate-500 tabular-nums">40,4%</td>
+                </tr>
+                <tr class="fila-buscable hover:bg-slate-50">
+                  <td class="py-2.5 px-5 text-slate-800">Birretes</td>
+                  <td class="py-2.5 px-5 text-right font-semibold text-slate-900 tabular-nums">$ 57.500</td>
+                  <td class="py-2.5 px-5 text-right text-slate-500 tabular-nums">9,3%</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="px-5 py-3 bg-slate-50 border-t border-slate-200 flex justify-between items-center font-bold text-sm text-slate-900">
+            <span>Total Pagos Pendientes</span>
+            <span class="text-amber-700 tabular-nums">$ 619.500</span>
+          </div>
+        </div>
+
+        <!-- Tabla: Cuentas por Cobrar / Pendientes de Apoderados -->
+        <div class="bg-white rounded-2xl shadow-sm border border-slate-200/80 overflow-hidden card-shadow flex flex-col justify-between">
+          <div>
+            <div class="px-5 py-4 border-b border-slate-100 flex items-center justify-between bg-sky-50/50">
+              <div>
+                <h3 class="font-display font-bold text-slate-900">Cuentas por Cobrar (Pendientes de Apoderados)</h3>
+                <p class="text-xs text-slate-500">Dinero comprometido por apoderados que aún falta por ingresar</p>
+              </div>
+              <span class="px-2.5 py-1 rounded-lg bg-sky-100 text-sky-800 text-xs font-bold tabular-nums">$ 80.000</span>
+            </div>
+            <table class="w-full text-left border-collapse text-sm">
+              <thead>
+                <tr class="bg-slate-50/80 border-b border-slate-200 text-slate-500 text-xs uppercase">
+                  <th class="py-2.5 px-5 font-semibold">Concepto</th>
+                  <th class="py-2.5 px-5 font-semibold text-right">Monto Pendiente</th>
+                  <th class="py-2.5 px-5 font-semibold text-right">%</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-slate-100">
+                <tr class="fila-buscable hover:bg-slate-50">
+                  <td class="py-2.5 px-5 text-slate-800">Pendiente en cuotas</td>
+                  <td class="py-2.5 px-5 text-right font-semibold text-slate-900 tabular-nums">$ 70.000</td>
+                  <td class="py-2.5 px-5 text-right text-slate-500 tabular-nums">87,5%</td>
+                </tr>
+                <tr class="fila-buscable hover:bg-slate-50">
+                  <td class="py-2.5 px-5 text-slate-800">Pendiente en cuadros</td>
+                  <td class="py-2.5 px-5 text-right font-semibold text-slate-900 tabular-nums">$ 10.000</td>
+                  <td class="py-2.5 px-5 text-right text-slate-500 tabular-nums">12,5%</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="px-5 py-3 bg-slate-50 border-t border-slate-200 flex justify-between items-center font-bold text-sm text-slate-900">
+            <span>Total Pendiente por Recaudar</span>
+            <span class="text-sky-700 tabular-nums">$ 80.000</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ===================================================================== -->
+    <!-- PESTAÑA 3: SIMULADOR INTERACTIVO DE RECAUDACIÓN Y PROYECCIÓN          -->
+    <!-- ===================================================================== -->
+    <div id="panel-simulador" class="tab-panel hidden no-print space-y-6">
+      <div class="bg-white rounded-2xl p-5 sm:p-7 shadow-sm border border-slate-200/80 card-shadow">
+        <div class="max-w-2xl">
+          <span class="inline-block px-2.5 py-1 rounded-lg bg-emerald-100 text-emerald-800 text-xs font-bold uppercase tracking-wider mb-2">Herramienta Interactiva</span>
+          <h3 class="font-display text-xl font-bold text-slate-900">Simulador de Recaudación Pendiente y Presupuesto de Regalos</h3>
+          <p class="text-sm text-slate-600 mt-1">
+            Desliza los controles para simular qué ocurre con el saldo disponible del curso a medida que se recaudan las cuotas y cuadros pendientes, o si se define un monto para el <strong>Regalo de la Profesora</strong>.
+          </p>
+        </div>
+
+        <div class="mt-6 grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+          
+          <!-- Controles del simulador -->
+          <div class="lg:col-span-7 space-y-5 bg-slate-50 p-5 rounded-2xl border border-slate-200/80">
+            
+            <!-- Slider 1: Cuotas pendientes -->
+            <div>
+              <div class="flex justify-between text-sm font-semibold mb-1.5">
+                <label for="slider-cuotas" class="text-slate-800">1. Recaudación de Cuotas Pendientes (Máx. $ 70.000)</label>
+                <span id="val-cuotas" class="text-emerald-700 font-bold tabular-nums">$ 70.000</span>
+              </div>
+              <input
+                type="range"
+                id="slider-cuotas"
+                min="0"
+                max="70000"
+                step="5000"
+                value="70000"
+                oninput="actualizarSimulador()"
+                class="w-full h-2 bg-slate-200 rounded-lg cursor-pointer"
+              />
+              <div class="flex justify-between text-xs text-slate-400 mt-1">
+                <span>$ 0 (Nadie paga)</span>
+                <span>$ 35.000 (50%)</span>
+                <span>$ 70.000 (100% al día)</span>
+              </div>
+            </div>
+
+            <!-- Slider 2: Cuadros pendientes -->
+            <div>
+              <div class="flex justify-between text-sm font-semibold mb-1.5">
+                <label for="slider-cuadros" class="text-slate-800">2. Recaudación de Cuadros Pendientes (Máx. $ 10.000)</label>
+                <span id="val-cuadros" class="text-emerald-700 font-bold tabular-nums">$ 10.000</span>
+              </div>
+              <input
+                type="range"
+                id="slider-cuadros"
+                min="0"
+                max="10000"
+                step="2000"
+                value="10000"
+                oninput="actualizarSimulador()"
+                class="w-full h-2 bg-slate-200 rounded-lg cursor-pointer"
+              />
+              <div class="flex justify-between text-xs text-slate-400 mt-1">
+                <span>$ 0</span>
+                <span>$ 10.000 (100% pagado)</span>
+              </div>
+            </div>
+
+            <!-- Slider 3: Presupuesto opcional Regalo Profesora -->
+            <div class="pt-3 border-t border-slate-200">
+              <div class="flex justify-between text-sm font-semibold mb-1.5">
+                <label for="slider-profesora" class="text-slate-800">3. Simular Presupuesto "Regalo Profesora" (Hoy en $ 0)</label>
+                <span id="val-profesora" class="text-rose-600 font-bold tabular-nums">$ 0</span>
+              </div>
+              <input
+                type="range"
+                id="slider-profesora"
+                min="0"
+                max="150000"
+                step="5000"
+                value="0"
+                oninput="actualizarSimulador()"
+                class="w-full h-2 bg-slate-200 rounded-lg cursor-pointer"
+              />
+              <div class="flex justify-between text-xs text-slate-400 mt-1">
+                <span>$ 0 (Sin asignar)</span>
+                <span>$ 50.000</span>
+                <span>$ 100.000</span>
+                <span>$ 150.000</span>
+              </div>
+            </div>
+
+            <div class="pt-2 flex flex-wrap gap-2">
+              <button
+                onclick="presetSimulador(70000, 10000, 0)"
+                class="px-3 py-1.5 rounded-lg bg-white border border-slate-300 text-xs font-semibold text-slate-700 hover:bg-slate-100 cursor-pointer"
+              >
+                Escenario Planilla (100% cobrado)
+              </button>
+              <button
+                onclick="presetSimulador(0, 0, 0)"
+                class="px-3 py-1.5 rounded-lg bg-white border border-slate-300 text-xs font-semibold text-slate-700 hover:bg-slate-100 cursor-pointer"
+              >
+                Escenario Conservador (Solo saldo hoy)
+              </button>
+            </div>
+          </div>
+
+          <!-- Resultado en vivo del simulador -->
+          <div class="lg:col-span-5 bg-slate-900 text-white p-6 rounded-2xl space-y-4">
+            <h4 class="font-display font-bold text-base text-emerald-300 uppercase tracking-wider">Resultado Simulado</h4>
+            
+            <div class="space-y-2.5 text-sm">
+              <div class="flex justify-between text-slate-300">
+                <span>Saldo Libre Base Actual:</span>
+                <span class="font-semibold text-white tabular-nums">$ 358.410</span>
+              </div>
+              <div class="flex justify-between text-emerald-300">
+                <span>(+) Cobros pendientes simulados:</span>
+                <span id="sim-cobros" class="font-semibold tabular-nums">+ $ 80.000</span>
+              </div>
+              <div class="flex justify-between text-rose-300">
+                <span>(−) Presupuesto Regalo Profesora:</span>
+                <span id="sim-prof" class="font-semibold tabular-nums">− $ 0</span>
+              </div>
+            </div>
+
+            <div class="pt-4 border-t border-slate-700">
+              <p class="text-xs uppercase tracking-wider text-slate-400">Saldo Final Disponible para Regalos</p>
+              <p id="sim-total" class="font-display text-3xl sm:text-4xl font-extrabold text-amber-400 mt-1 tabular-nums">$ 438.410</p>
+              <p id="sim-mensaje" class="text-xs text-slate-300 mt-2">
+                Con el 100% de los cobros al día y sin descontar aún el regalo de la profesora, este es el monto exacto proyectado en la planilla.
+              </p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- Pie de página -->
+  <footer class="bg-white border-t border-slate-200 mt-10 py-5">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-slate-500">
+      <p>Rendición de Cuentas y Balance del Curso • Portal Informativo para Apoderados</p>
+      <p>Valores verificados según planilla oficial de tesorería</p>
+    </div>
+  </footer>
+
+  <!-- JavaScript para Gráficos Interactivos, Pestañas, Buscador y Simulador -->
+  <script>
+    // Formateador de moneda chilena con punto como separador de miles
+    function formatCLP(valor) {
+      const signo = valor < 0 ? '- ' : '';
+      const absVal = Math.abs(Math.round(valor));
+      return signo + '$ ' + absVal.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+    }
+
+    // Cambio de pestañas
+    function cambiarTab(tab) {
+      const tabs = ['visual', 'detalle', 'simulador'];
+      tabs.forEach(t => {
+        const panel = document.getElementById('panel-' + t);
+        const btn = document.getElementById('tab-btn-' + t);
+        if (t === tab) {
+          panel.classList.remove('hidden');
+          btn.classList.remove('text-slate-600', 'hover:text-slate-900', 'hover:bg-slate-100');
+          btn.classList.add('bg-slate-900', 'text-white', 'shadow-sm');
+        } else {
+          panel.classList.add('hidden');
+          btn.classList.remove('bg-slate-900', 'text-white', 'shadow-sm');
+          btn.classList.add('text-slate-600', 'hover:text-slate-900', 'hover:bg-slate-100');
+        }
+      });
+    }
+
+    // Filtro de búsqueda en tablas
+    function filtrarTablas(texto) {
+      const query = texto.toLowerCase().trim();
+      const filas = document.querySelectorAll('.fila-buscable');
+      filas.forEach(fila => {
+        const contenido = fila.textContent.toLowerCase();
+        fila.style.display = contenido.includes(query) ? '' : 'none';
+      });
+    }
+
+    // Copiar resumen ejecutivo para WhatsApp
+    function copiarResumenTexto() {
+      const texto = [
+        '📊 *RENDICIÓN DE CUENTAS Y BALANCE DEL CURSO*',
+        '',
+        '✅ *Total Ingresos Recaudados:* $ 1.219.700',
+        '   • Cuotas: $ 620.000',
+        '   • Otros ingresos (sopaipillas, rifas, bingo, cuadro extra): $ 379.700',
+        '   • Cuadros: $ 220.000',
+        '',
+        '💸 *Total Gastos Ejecutados:* $ 241.790',
+        '💰 *Saldo Actual en Caja:* $ 977.910',
+        '',
+        '📌 *Compromisos por Pagar:* $ 619.500',
+        '   • Cuadros: $ 312.000',
+        '   • Casa de cumpleaños: $ 250.000',
+        '   • Birretes: $ 57.500',
+        '',
+        '🟢 *Saldo Libre Actual:* $ 358.410',
+        '⏳ *Pendiente por Cobrar:* $ 80.000 ($ 70.000 cuotas + $ 10.000 cuadros)',
+        '🎁 *Proyección Final para Regalos (si pagan todos):* $ 438.410'
+      ].join('\n');
+
+      const textarea = document.createElement('textarea');
+      textarea.value = texto;
+      textarea.style.position = 'fixed';
+      textarea.style.opacity = '0';
+      document.body.appendChild(textarea);
+      textarea.select();
+      try {
+        document.execCommand('copy');
+        const toast = document.getElementById('toast-copiado');
+        toast.classList.remove('hidden');
+        setTimeout(() => toast.classList.add('hidden'), 4500);
+      } catch (err) {
+        console.error('No se pudo copiar el texto', err);
+      }
+      document.body.removeChild(textarea);
+    }
+
+    // Simulador de proyección
+    function actualizarSimulador() {
+      const cuotas = parseInt(document.getElementById('slider-cuotas').value, 10);
+      const cuadros = parseInt(document.getElementById('slider-cuadros').value, 10);
+      const profesora = parseInt(document.getElementById('slider-profesora').value, 10);
+
+      document.getElementById('val-cuotas').textContent = formatCLP(cuotas);
+      document.getElementById('val-cuadros').textContent = formatCLP(cuadros);
+      document.getElementById('val-profesora').textContent = formatCLP(profesora);
+
+      const cobrosExtra = cuotas + cuadros;
+      const saldoBase = 358410;
+      const totalSimulado = saldoBase + cobrosExtra - profesora;
+
+      document.getElementById('sim-cobros').textContent = '+ ' + formatCLP(cobrosExtra);
+      document.getElementById('sim-prof').textContent = '− ' + formatCLP(profesora);
+      document.getElementById('sim-total').textContent = formatCLP(totalSimulado);
+
+      const msgEl = document.getElementById('sim-mensaje');
+      if (cuotas === 70000 && cuadros === 10000 && profesora === 0) {
+        msgEl.textContent = 'Con el 100% de los cobros al día y sin descontar aún el regalo de la profesora, este es el monto exacto proyectado en la planilla.';
+      } else {
+        msgEl.textContent = `Recaudando ${formatCLP(cobrosExtra)} adicionales y asignando ${formatCLP(profesora)} al regalo de la profesora, quedarían ${formatCLP(totalSimulado)} disponibles.`;
+      }
+    }
+
+    function presetSimulador(cuotas, cuadros, profesora) {
+      document.getElementById('slider-cuotas').value = cuotas;
+      document.getElementById('slider-cuadros').value = cuadros;
+      document.getElementById('slider-profesora').value = profesora;
+      actualizarSimulador();
+    }
+
+    // Inicialización de Gráficos con Chart.js al cargar la página
+    window.addEventListener('DOMContentLoaded', () => {
+      Chart.defaults.font.family = "'Inter', sans-serif";
+      Chart.defaults.color = '#475569';
+
+      // GRÁFICO 1: Flujo Financiero General (Barras)
+      const ctxFlujo = document.getElementById('chartFlujo').getContext('2d');
+      new Chart(ctxFlujo, {
+        type: 'bar',
+        data: {
+          labels: [
+            'Total Ingresos',
+            'Gastos Pagados',
+            'Saldo en Caja',
+            'Pagos Pendientes',
+            'Saldo Libre',
+            'Proy. Regalos'
+          ],
+          datasets: [{
+            label: 'Monto (CLP)',
+            data: [1219700, 241790, 977910, 619500, 358410, 438410],
+            backgroundColor: [
+              '#059669', // Verde esmeralda - Total Ingresos
+              '#e11d48', // Coral/Rojo - Gastos Pagados
+              '#0284c7', // Azul - Saldo en Caja
+              '#f59e0b', // Ámbar - Pagos Pendientes
+              '#065f46', // Verde oscuro - Saldo Libre Actual
+              '#d97706'  // Ámbar dorado - Proyección Regalos
+            ],
+            borderRadius: 8,
+            borderSkipped: false,
+            barPercentage: 0.62
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { display: false },
+            tooltip: {
+              backgroundColor: '#0f172a',
+              padding: 12,
+              cornerRadius: 10,
+              callbacks: {
+                label: (ctx) => ' ' + formatCLP(ctx.parsed.y)
+              }
+            }
+          },
+          scales: {
+            y: {
+              beginAtZero: true,
+              grid: { color: '#f1f5f9' },
+              ticks: {
+                callback: (value) => '$ ' + (value / 1000) + 'k'
+              }
+            },
+            x: {
+              grid: { display: false },
+              ticks: {
+                font: { size: 11, weight: '600' }
+              }
+            }
+          }
+        }
+      });
+
+      // GRÁFICO 2: Composición de los Ingresos (Dona)
+      const ctxIngresos = document.getElementById('chartIngresos').getContext('2d');
+      new Chart(ctxIngresos, {
+        type: 'doughnut',
+        data: {
+          labels: ['Cuotas (50,8%)', 'Otros Ingresos (31,1%)', 'Cuadros (18,0%)'],
+          datasets: [{
+            data: [620000, 379700, 220000],
+            backgroundColor: ['#059669', '#0284c7', '#f59e0b'],
+            borderWidth: 3,
+            borderColor: '#ffffff',
+            hoverOffset: 6
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          cutout: '64%',
+          plugins: {
+            legend: { display: false },
+            tooltip: {
+              backgroundColor: '#0f172a',
+              padding: 12,
+              cornerRadius: 10,
+              callbacks: {
+                label: (ctx) => {
+                  const total = 1219700;
+                  const pct = ((ctx.parsed / total) * 100).toFixed(1).replace('.', ',');
+                  return ` ${formatCLP(ctx.parsed)} (${pct}%)`;
+                }
+              }
+            }
+          }
+        }
+      });
+
+      // GRÁFICO 3: Estado de Avance de Compromisos Principales (Barras Horizontales Apiladas)
+      const ctxCompromisos = document.getElementById('chartCompromisos').getContext('2d');
+      new Chart(ctxCompromisos, {
+        type: 'bar',
+        data: {
+          labels: ['Casa de Cumpleaños', 'Cuadros', 'Birretes'],
+          datasets: [
+            {
+              label: 'Abonado',
+              data: [100000, 0, 57500],
+              backgroundColor: '#059669',
+              borderRadius: 6,
+              barPercentage: 0.55
+            },
+            {
+              label: 'Pendiente por Pagar',
+              data: [250000, 312000, 57500],
+              backgroundColor: '#f59e0b',
+              borderRadius: 6,
+              barPercentage: 0.55
+            }
+          ]
+        },
+        options: {
+          indexAxis: 'y',
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { display: false },
+            tooltip: {
+              backgroundColor: '#0f172a',
+              padding: 12,
+              cornerRadius: 10,
+              callbacks: {
+                label: (ctx) => ` ${ctx.dataset.label}: ${formatCLP(ctx.parsed.x)}`
+              }
+            }
+          },
+          scales: {
+            x: {
+              stacked: true,
+              grid: { color: '#f1f5f9' },
+              ticks: {
+                callback: (value) => '$ ' + (value / 1000) + 'k'
+              }
+            },
+            y: {
+              stacked: true,
+              grid: { display: false },
+              ticks: {
+                font: { size: 12, weight: '600' },
+                color: '#1e293b'
+              }
+            }
+          }
+        }
+      });
+    });
+  </script>
+</body>
+</html>
